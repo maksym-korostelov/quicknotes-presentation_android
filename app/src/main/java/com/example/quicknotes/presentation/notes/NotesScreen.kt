@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material.icons.filled.PushPin
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -201,6 +202,14 @@ private fun NoteItem(
                         horizontalArrangement = Arrangement.spacedBy(6.dp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
+                        if (note.isPinned) {
+                            Icon(
+                                Icons.Filled.PushPin,
+                                contentDescription = "Pinned",
+                                modifier = Modifier.size(18.dp),
+                                tint = MaterialTheme.colorScheme.primary,
+                            )
+                        }
                         if (note.isArchived) {
                             Surface(
                                 shape = RoundedCornerShape(12.dp),

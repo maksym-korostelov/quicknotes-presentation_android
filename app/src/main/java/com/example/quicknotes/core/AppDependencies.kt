@@ -17,14 +17,17 @@ import com.example.quicknotes.domain.usecase.GetNoteUseCase
 import com.example.quicknotes.domain.usecase.GetNotesUseCase
 import com.example.quicknotes.domain.usecase.SaveNoteUseCase
 import com.example.quicknotes.domain.usecase.UpdateCategoryUseCase
+import com.example.quicknotes.presentation.categories.CategoryEditorViewModel
 import com.example.quicknotes.presentation.categories.CategoryListViewModel
 import com.example.quicknotes.presentation.notes.NoteDetailViewModel
 import com.example.quicknotes.presentation.notes.NoteEditorViewModel
 import com.example.quicknotes.presentation.notes.NoteListViewModel
+import com.example.quicknotes.presentation.search.SearchViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import com.example.quicknotes.domain.entity.Category
 import java.util.UUID
 
 /**
@@ -132,5 +135,13 @@ class AppDependencies(
         getNoteUseCase = getNoteUseCase,
         getCategoriesUseCase = getCategoriesUseCase,
         saveNoteUseCase = saveNoteUseCase,
+    )
+
+    fun createSearchViewModel() = SearchViewModel(getNotesUseCase = getNotesUseCase)
+
+    fun createCategoryEditorViewModel(existingCategory: Category?) = CategoryEditorViewModel(
+        existingCategory = existingCategory,
+        addCategoryUseCase = addCategoryUseCase,
+        updateCategoryUseCase = updateCategoryUseCase,
     )
 }

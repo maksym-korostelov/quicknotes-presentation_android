@@ -8,13 +8,13 @@ import java.util.UUID
 
 class NoteEditorViewModelFactory(
     private val dependencies: AppDependencies,
-    private val savedStateHandle: SavedStateHandle,
+    private val savedStateHandle: SavedStateHandle? = null,
+    private val noteId: UUID? = null,
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        val noteIdStr = savedStateHandle.get<String>("noteId")
-        val noteId = noteIdStr?.let { UUID.fromString(it) }
-        return dependencies.createNoteEditorViewModel(noteId) as T
+        val id = noteId ?: savedStateHandle?.get<String>("noteId")?.let { UUID.fromString(it) }
+        return dependencies.createNoteEditorViewModel(id) as T
     }
 }

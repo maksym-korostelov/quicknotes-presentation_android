@@ -20,7 +20,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.PushPin
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -47,7 +49,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import com.example.quicknotes.domain.entity.Category
 import com.example.quicknotes.domain.entity.Note
+import java.util.UUID
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
@@ -102,42 +106,107 @@ fun NotesScreen(
             }
         },
     ) { padding ->
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding),
         ) {
-            if (state.isLoading && state.notes.isEmpty()) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center),
-                )
-            } else if (state.filteredNotes.isEmpty()) {
-                Text(
-                    text = if (state.showArchivedAndCompleted)
-                        "No notes yet. Tap + to create one."
-                    else
-                        "No notes to show. Tap the filter icon and choose \"Show archived & completed\" to see all.",
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .padding(24.dp),
-                )
-            } else {
-                LazyColumn(
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
-                    items(
-                        items = state.filteredNotes,
-                        key = { it.id.toString() },
-                    ) { note ->
-                        NoteItem(
-                            note = note,
-                            onClick = { onNoteClick(note) },
-                        )
+            CategoryFilterBar(
+                categories = state.categories,
+                selectedCategoryId = state.selectedCategoryId,
+                onCategorySelected = { viewModel.setSelectedCategory(it) },
+            )
+            Box(modifier = Modifier.fillMaxSize()) {
+                if (state.isLoading && state.notes.isEmpty()) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center),
+                    )
+                } else if (state.filteredNotes.isEmpty()) {
+                    Text(
+                        text = if (state.showArchivedAndCompleted)
+                            "No notes yet. Tap + to create one."
+                        else
+                            "No notes to show. Tap the filter icon and choose \"Show archived & completed\" to see all.",
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .padding(24.dp),
+                    )
+                } else {
+                    LazyColumn(
+                        contentPadding = PaddingValues(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        items(
+                            items = state.filteredNotes,
+                            key = { it.id.toString() },
+                        ) { note ->
+                            NoteItem(
+                                note = note,
+                                onClick = { onNoteClick(note) },
+                            )
+                        }
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun CategoryFilterBar(
+    categories: List<Category>,
+    selectedCategoryId: UUID?,
+    onCategorySelected: (UUID?) -> Unit,
+) {
+    var showCategoryMenu by remember { mutableStateOf(false) }
+    val selectedName = selectedCategoryId?.let { id ->
+        categories.find { it.id == id }?.name
+    } ?: "All"
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .clickable { showCategoryMenu = true },
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(
+            Icons.Filled.Folder,
+            contentDescription = null,
+            modifier = Modifier.size(20.dp),
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        Text(
+            text = selectedName,
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(start = 8.dp),
+        )
+        Icon(
+            Icons.Filled.ArrowDropDown,
+            contentDescription = "Category",
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+    }
+    DropdownMenu(
+        expanded = showCategoryMenu,
+        onDismissRequest = { showCategoryMenu = false },
+    ) {
+        DropdownMenuItem(
+            text = { Text("All") },
+            onClick = {
+                onCategorySelected(null)
+                showCategoryMenu = false
+            },
+        )
+        categories.forEach { category ->
+            DropdownMenuItem(
+                text = { Text(category.name) },
+                onClick = {
+                    onCategorySelected(category.id)
+                    showCategoryMenu = false
+                },
+            )
         }
     }
 }

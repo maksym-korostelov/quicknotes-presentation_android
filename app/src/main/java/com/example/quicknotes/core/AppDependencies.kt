@@ -22,6 +22,7 @@ import com.example.quicknotes.presentation.categories.CategoryListViewModel
 import com.example.quicknotes.presentation.notes.NoteDetailViewModel
 import com.example.quicknotes.presentation.notes.NoteEditorViewModel
 import com.example.quicknotes.presentation.notes.NoteListViewModel
+import com.example.quicknotes.presentation.profile.ProfileViewModel
 import com.example.quicknotes.presentation.search.SearchViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -138,6 +139,11 @@ class AppDependencies(
     )
 
     fun createSearchViewModel() = SearchViewModel(getNotesUseCase = getNotesUseCase)
+
+    fun createProfileViewModel() = ProfileViewModel(
+        getNotesUseCase = getNotesUseCase,
+        getCategoriesUseCase = getCategoriesUseCase,
+    )
 
     fun createCategoryEditorViewModel(existingCategory: Category?) = CategoryEditorViewModel(
         existingCategory = existingCategory,

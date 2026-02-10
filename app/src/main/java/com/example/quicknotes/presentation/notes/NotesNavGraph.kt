@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.quicknotes.core.AppDependencies
+import com.example.quicknotes.core.AppPreferences
 import com.example.quicknotes.core.NoteDetailViewModelFactory
 import com.example.quicknotes.core.NoteEditorViewModelFactory
 import com.example.quicknotes.core.ViewModelFactory
@@ -29,6 +30,7 @@ fun NotesNavGraph(
     dependencies: AppDependencies,
     initialCategoryFilter: UUID?,
     onFilterConsumed: () -> Unit,
+    preferences: AppPreferences? = null,
 ) {
     val navController = rememberNavController()
     val viewModelFactory = remember(dependencies) { ViewModelFactory(dependencies) }
@@ -47,6 +49,11 @@ fun NotesNavGraph(
                 initialCategoryFilter?.let { id ->
                     noteListViewModel.setSelectedCategory(id)
                     onFilterConsumed()
+                }
+            }
+            preferences?.let { prefs ->
+                LaunchedEffect(prefs.sortOrder) {
+                    noteListViewModel.setSortOrder(prefs.sortOrder)
                 }
             }
             NotesScreen(

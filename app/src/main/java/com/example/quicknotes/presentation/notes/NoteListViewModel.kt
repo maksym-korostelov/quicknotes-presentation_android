@@ -21,6 +21,7 @@ data class NoteListUiState(
     val selectedCategoryId: UUID? = null,
     val showArchivedAndCompleted: Boolean = false,
     val searchQuery: String = "",
+    val sortOrder: String = "Newest first",
     val isLoading: Boolean = false,
     val errorMessage: String? = null,
 ) {
@@ -40,8 +41,14 @@ data class NoteListUiState(
                         it.content.contains(query, ignoreCase = true)
                 }
             }
+            val secondary = when (sortOrder) {
+                "Oldest first" -> compareBy<Note> { it.modifiedAt }
+                "Title A–Z" -> compareBy(String.CASE_INSENSITIVE_ORDER) { it.title }
+                "Title Z–A" -> compareByDescending(String.CASE_INSENSITIVE_ORDER) { it.title }
+                else -> compareByDescending<Note> { it.modifiedAt } // "Newest first"
+            }
             return result.sortedWith(
-                compareByDescending<Note> { it.isPinned }.thenByDescending { it.modifiedAt },
+                compareByDescending<Note> { it.isPinned }.then(secondary),
             )
         }
 }
@@ -104,6 +111,10 @@ class NoteListViewModel(
 
     fun setShowArchivedAndCompleted(show: Boolean) {
         _state.update { it.copy(showArchivedAndCompleted = show) }
+    }
+
+    fun setSortOrder(order: String) {
+        _state.update { it.copy(sortOrder = order) }
     }
 
     fun addNote(title: String, content: String) {

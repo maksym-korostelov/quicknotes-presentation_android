@@ -19,16 +19,16 @@ object SeedData {
         val personal = categories.find { it.name == "Personal" }
         val ideas = categories.find { it.name == "Ideas" }
         return listOf(
-            Note(title = "Welcome to QuickNotes", content = "This is your first note. Tap + to create more!", category = null, isPinned = true),
-            Note(title = "Shopping List", content = "Milk, Eggs, Bread, Butter", category = personal),
-            Note(title = "Meeting Notes", content = "Discuss Q4 roadmap with the team.", category = work),
-            Note(title = "Project Alpha ideas", content = "Consider dark mode, widgets, and offline sync.", category = ideas),
-            Note(title = "Weekly standup", content = "• Backend API on track\n• Design review Thursday\n• Deploy to staging Friday", category = work),
-            Note(title = "Books to read", content = "1. Deep Work\n2. Atomic Habits\n3. The Pragmatic Programmer", category = personal),
-            Note(title = "Feature brainstorm", content = "Tags, reminders, rich text, export to PDF.", category = ideas),
-            Note(title = "Vacation packing", content = "Passport, charger, adapters, meds, sunscreen.", category = personal),
-            Note(title = "Sprint retrospective", content = "What went well: shipping on time. Improve: earlier QA involvement.", category = work),
-            Note(title = "App name ideas", content = "NoteFlow, QuickJot, MemoBox, Scribble.", category = ideas),
+            Note(title = "Welcome to QuickNotes", content = "First note. Swipe, tap, ignore the other 83 apps. You're in charge here.", category = null, isPinned = true),
+            Note(title = "Shopping List", content = "Milk, bread, more coffee. Also that thing from the other aisle. You know the one.", category = personal),
+            Note(title = "Meeting Notes", content = "Agenda: 3 items. Discussion: 47 tangents. Decisions made: zero. Snacks: good.", category = work),
+            Note(title = "Project Alpha ideas", content = "MVP scope: everything. Timeline: soon. 'Soon' is not a date. We know.", category = ideas),
+            Note(title = "Weekly standup", content = "• Yesterday: meetings\n• Today: more meetings\n• Blockers: need time to actually do work", category = work),
+            Note(title = "Books to read", content = "Stack by the bed. One bookmarked at page 12 since March. It's fine. I'm fine.", category = personal),
+            Note(title = "Feature brainstorm", content = "Voice notes (so I can forget to listen), cloud sync (lose things everywhere), AI summary (not read my own notes).", category = ideas),
+            Note(title = "Vacation packing", content = "Phone, charger, backup charger. If I forget pants I'll buy some there. Priorities.", category = personal),
+            Note(title = "Sprint retrospective", content = "Went well: nobody cried. To improve: everything else. Action items: same as last retro. We'll get to them.", category = work),
+            Note(title = "App name ideas", content = "Noteworthy (taken), JotBot (sounds like a vacuum), Noteify (sounds like notify). Back to the whiteboard.", category = ideas),
         )
     }
 }

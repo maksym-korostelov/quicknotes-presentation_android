@@ -4,7 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.List
@@ -39,6 +42,7 @@ import com.example.quicknotes.presentation.categories.CategoryListViewModel
 import com.example.quicknotes.presentation.notes.NotesNavGraph
 import com.example.quicknotes.presentation.onboarding.OnboardingScreen
 import com.example.quicknotes.presentation.profile.ProfileScreen
+import com.example.quicknotes.presentation.profile.ProfileViewModel
 import com.example.quicknotes.presentation.search.SearchScreen
 import com.example.quicknotes.presentation.search.SearchTab
 import com.example.quicknotes.presentation.search.SearchViewModel
@@ -113,15 +117,21 @@ private fun MainContent(
             }
         },
     ) { padding ->
-        when (selectedTab) {
+        Box(
+            modifier = Modifier
+                .statusBarsPadding()
+                .padding(padding),
+        ) {
+            when (selectedTab) {
             0 -> NotesTab(
-                modifier = Modifier.padding(padding),
+                modifier = Modifier.fillMaxSize(),
                 dependencies = appDependencies,
+                preferences = preferences,
                 initialCategoryFilter = selectedCategoryFilter,
                 onFilterConsumed = { selectedCategoryFilter = null },
             )
             1 -> CategoriesTab(
-                modifier = Modifier.padding(padding),
+                modifier = Modifier.fillMaxSize(),
                 viewModelFactory = viewModelFactory,
                 dependencies = appDependencies,
                 onCategoryClick = { category ->
@@ -129,16 +139,22 @@ private fun MainContent(
                     selectedTab = 0
                 },
             )
-            2 -> SettingsScreen(
-                preferences = preferences,
-                onDarkModeChange = onDarkModeChange,
-            )
-            3 -> ProfileScreen()
+            2 -> Box(modifier = Modifier.fillMaxSize()) {
+                SettingsScreen(
+                    preferences = preferences,
+                    onDarkModeChange = onDarkModeChange,
+                )
+            }
+            3 -> Box(modifier = Modifier.fillMaxSize()) {
+                val profileViewModel: ProfileViewModel = viewModel(factory = viewModelFactory)
+                ProfileScreen(viewModel = profileViewModel)
+            }
             4 -> SearchTab(
-                modifier = Modifier.padding(padding),
+                modifier = Modifier.fillMaxSize(),
                 viewModelFactory = viewModelFactory,
                 dependencies = appDependencies,
             )
+            }
         }
     }
 }
@@ -149,6 +165,7 @@ private data class TabItem(val label: String, val icon: ImageVector)
 private fun NotesTab(
     modifier: Modifier,
     dependencies: AppDependencies,
+    preferences: AppPreferences,
     initialCategoryFilter: UUID?,
     onFilterConsumed: () -> Unit,
 ) {
@@ -157,6 +174,7 @@ private fun NotesTab(
         dependencies = dependencies,
         initialCategoryFilter = initialCategoryFilter,
         onFilterConsumed = onFilterConsumed,
+        preferences = preferences,
     )
 }
 

@@ -36,6 +36,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.quicknotes.domain.entity.Note
+import com.example.quicknotes.ui.theme.AppColors
+import com.example.quicknotes.ui.theme.AppTypography
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
@@ -70,10 +72,10 @@ fun NoteDetailScreen(
                         showDeleteConfirm = false
                         onBack()
                     },
-                ) { Text("Delete", color = MaterialTheme.colorScheme.error) }
+                ) { Text("Delete", style = AppTypography.bodyLarge, color = AppColors.textDestructive) }
             },
             dismissButton = {
-                androidx.compose.material3.TextButton(onClick = { showDeleteConfirm = false }) { Text("Cancel") }
+                androidx.compose.material3.TextButton(onClick = { showDeleteConfirm = false }) { Text("Cancel", style = AppTypography.bodyLarge, color = AppColors.textSecondary) }
             },
         )
     }
@@ -145,24 +147,24 @@ fun NoteDetailScreen(
                 ) {
                     Text(
                         text = note.title.ifEmpty { "(No title)" },
-                        style = MaterialTheme.typography.headlineSmall,
+                        style = AppTypography.displayLarge,
                     )
                     Spacer(Modifier.height(8.dp))
                     HorizontalDivider()
                     Spacer(Modifier.height(16.dp))
                     Text(
                         text = note.content.ifEmpty { "No content" },
-                        style = MaterialTheme.typography.bodyLarge,
+                        style = AppTypography.bodyLarge,
                         modifier = Modifier.fillMaxWidth(),
                     )
                     Spacer(Modifier.height(24.dp))
                     HorizontalDivider()
                     Spacer(Modifier.height(16.dp))
-                    Text("Created: ${formatter.format(note.createdAt)}", style = MaterialTheme.typography.bodySmall)
-                    Text("Modified: ${formatter.format(note.modifiedAt)}", style = MaterialTheme.typography.bodySmall)
+                    Text("Created: ${formatter.format(note.createdAt)}", style = AppTypography.bodySmall)
+                    Text("Modified: ${formatter.format(note.modifiedAt)}", style = AppTypography.bodySmall)
                     note.category?.let { cat ->
                         Spacer(Modifier.height(4.dp))
-                        Text("Category: ${cat.name}", style = MaterialTheme.typography.bodySmall)
+                        Text("Category: ${cat.name}", style = AppTypography.bodySmall)
                     }
                 }
             }

@@ -43,6 +43,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.quicknotes.core.parseColorHex
 import com.example.quicknotes.domain.entity.Category
+import com.example.quicknotes.ui.theme.AppColors
+import com.example.quicknotes.ui.theme.AppTypography
+import com.example.quicknotes.ui.theme.AppColors
+import com.example.quicknotes.ui.theme.AppTypography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -69,7 +73,7 @@ fun CategoriesScreen(
             },
             dismissButton = {
                 TextButton(onClick = { showCategoryMenu = null; categoryToDelete = category }) {
-                    Text("Delete", color = MaterialTheme.colorScheme.error)
+                    Text("Delete", style = AppTypography.bodyLarge, color = AppColors.textDestructive)
                 }
             },
         )
@@ -83,10 +87,10 @@ fun CategoriesScreen(
                 TextButton(onClick = {
                     viewModel.deleteCategory(category.id)
                     categoryToDelete = null
-                }) { Text("Delete", color = MaterialTheme.colorScheme.error) }
+                }) { Text("Delete", style = AppTypography.bodyLarge, color = AppColors.textDestructive) }
             },
             dismissButton = {
-                TextButton(onClick = { categoryToDelete = null }) { Text("Cancel") }
+                TextButton(onClick = { categoryToDelete = null }) { Text("Cancel", style = AppTypography.bodyLarge, color = AppColors.textSecondary) }
             },
         )
     }
@@ -124,17 +128,17 @@ fun CategoriesScreen(
                         Icon(
                             Icons.Default.Folder,
                             contentDescription = null,
-                            modifier = Modifier.size(48.dp),
+                            modifier = Modifier.size(AppTypography.iconHeroMedium.dp),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                         Text(
                             text = "No categories yet",
-                            style = MaterialTheme.typography.titleMedium,
+                            style = AppTypography.headingLarge,
                         )
                         Text(
                             text = "Tap + to create a category and organize your notes",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = AppTypography.bodyMedium,
+                            color = AppColors.textSecondary,
                         )
                     }
                 }
@@ -206,12 +210,12 @@ private fun CategoryItem(
             ) {
                 Text(
                     text = category.name,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = AppTypography.headingSmall,
                 )
                 Text(
                     text = "Tap to view notes",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = AppTypography.bodySmall,
+                    color = AppColors.textSecondary,
                 )
             }
             Icon(

@@ -21,6 +21,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.quicknotes.ui.theme.AppColors
+import com.example.quicknotes.ui.theme.AppTypography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,12 +52,12 @@ fun HelpScreen(
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(
                     "How to use QuickNotes",
-                    style = MaterialTheme.typography.titleLarge,
+                    style = AppTypography.headingLarge,
                 )
                 Text(
                     "QuickNotes helps you capture and organize your notes with categories and search. Here's a quick guide to get the most out of the app.",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = AppTypography.bodyMedium,
+                    color = AppColors.textSecondary,
                 )
             }
 
@@ -78,7 +80,7 @@ fun HelpScreen(
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Text(
                     "Tips",
-                    style = MaterialTheme.typography.titleMedium,
+                    style = AppTypography.headingMedium,
                 )
                 listOf(
                     "Swipe or use the menu on a note in the list to delete it.",
@@ -91,12 +93,12 @@ fun HelpScreen(
                     ) {
                         Text(
                             "${index + 1}.",
-                            style = MaterialTheme.typography.bodyMedium,
+                            style = AppTypography.bodyMedium,
                         )
                         Text(
                             tip,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = AppTypography.bodyMedium,
+                            color = AppColors.textSecondary,
                         )
                     }
                 }
@@ -123,13 +125,13 @@ private fun HelpSection(
             )
             Text(
                 title,
-                style = MaterialTheme.typography.titleMedium,
+                style = AppTypography.headingMedium,
             )
         }
         Text(
             text,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = AppTypography.bodyMedium,
+            color = AppColors.textSecondary,
         )
     }
 }

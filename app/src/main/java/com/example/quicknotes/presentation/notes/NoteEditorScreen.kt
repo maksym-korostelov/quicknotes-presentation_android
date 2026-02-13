@@ -31,9 +31,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.quicknotes.domain.entity.Category
+import com.example.quicknotes.ui.theme.AppColors
+import com.example.quicknotes.ui.theme.AppTypography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -67,7 +68,7 @@ fun NoteEditorScreen(
                         onClick = { viewModel.save() },
                         enabled = state.isValid && !state.isLoading,
                     ) {
-                        Text("Save", fontWeight = FontWeight.SemiBold)
+                        Text("Save", style = AppTypography.headingSmall)
                     }
                 },
             )
@@ -87,7 +88,7 @@ fun NoteEditorScreen(
                     CircularProgressIndicator()
                 }
             } else {
-                Text("Title", style = MaterialTheme.typography.titleSmall)
+                Text("Title", style = AppTypography.captionLarge)
                 Spacer(Modifier.height(4.dp))
                 BasicTextField(
                     value = state.title,
@@ -95,7 +96,7 @@ fun NoteEditorScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(12.dp),
-                    textStyle = MaterialTheme.typography.bodyLarge,
+                    textStyle = AppTypography.bodyLarge,
                     singleLine = false,
                     decorationBox = { inner ->
                         Card(
@@ -109,7 +110,7 @@ fun NoteEditorScreen(
                     },
                 )
                 Spacer(Modifier.height(16.dp))
-                Text("Content", style = MaterialTheme.typography.titleSmall)
+                Text("Content", style = AppTypography.captionLarge)
                 Spacer(Modifier.height(4.dp))
                 BasicTextField(
                     value = state.content,
@@ -118,7 +119,7 @@ fun NoteEditorScreen(
                         .fillMaxWidth()
                         .height(200.dp)
                         .padding(12.dp),
-                    textStyle = MaterialTheme.typography.bodyLarge,
+                    textStyle = AppTypography.bodyLarge,
                     singleLine = false,
                     decorationBox = { inner ->
                         Card(
@@ -132,9 +133,13 @@ fun NoteEditorScreen(
                     },
                 )
                 Spacer(Modifier.height(8.dp))
-                Text("${state.content.length} characters", style = MaterialTheme.typography.bodySmall)
+                Text(
+                    "${state.content.length} characters",
+                    style = AppTypography.captionSmall,
+                    color = AppColors.textSecondary,
+                )
                 Spacer(Modifier.height(16.dp))
-                Text("Category", style = MaterialTheme.typography.titleSmall)
+                Text("Category", style = AppTypography.captionLarge)
                 Spacer(Modifier.height(4.dp))
                 state.categories.forEach { category ->
                     val selected = state.selectedCategory?.id == category.id
@@ -150,7 +155,7 @@ fun NoteEditorScreen(
                         Text(
                             text = category.name,
                             modifier = Modifier.padding(12.dp),
-                            style = MaterialTheme.typography.bodyLarge,
+                            style = AppTypography.bodyLarge,
                         )
                     }
                     Spacer(Modifier.height(4.dp))
@@ -166,7 +171,7 @@ fun NoteEditorScreen(
                             .padding(16.dp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Text("Pinned", modifier = Modifier.weight(1f), style = MaterialTheme.typography.bodyLarge)
+                        Text("Pinned", modifier = Modifier.weight(1f), style = AppTypography.bodyLarge)
                         Switch(checked = state.isPinned, onCheckedChange = { viewModel.setPinned(it) })
                     }
                 }

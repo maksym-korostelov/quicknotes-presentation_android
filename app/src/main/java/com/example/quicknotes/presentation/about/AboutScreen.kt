@@ -26,6 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.quicknotes.ui.theme.AppColors
+import com.example.quicknotes.ui.theme.AppTypography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,43 +59,44 @@ fun AboutScreen(
             Icon(
                 Icons.Filled.Description,
                 contentDescription = null,
-                modifier = Modifier.size(64.dp),
+                modifier = Modifier.size(AppTypography.iconHeroLarge.dp),
                 tint = MaterialTheme.colorScheme.primary,
             )
             Text(
                 text = "QuickNotes",
-                style = MaterialTheme.typography.headlineLarge,
+                style = AppTypography.displayLarge,
             )
             Text(
                 text = "Capture ideas. Stay organized.",
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = AppTypography.bodyMedium,
+                color = AppColors.textSecondary,
                 textAlign = TextAlign.Center,
             )
 
             Surface(
                 modifier = Modifier.fillMaxWidth(),
                 shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp),
-                color = MaterialTheme.colorScheme.surfaceVariant,
+                color = AppColors.backgroundSecondary,
             ) {
+                val (valueStyle, valueColor) = AppTypography.bodyMediumValue()
                 Column(
                     modifier = Modifier.padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
-                    Text("Version", style = MaterialTheme.typography.titleSmall)
+                    Text("Version", style = AppTypography.headingSmall)
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
-                        Text("Version", style = MaterialTheme.typography.bodyMedium)
-                        Text("1.0.0", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text("Version", style = AppTypography.bodyLarge)
+                        Text("1.0.0", style = valueStyle, color = valueColor)
                     }
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
-                        Text("Build", style = MaterialTheme.typography.bodyMedium)
-                        Text("2025.1", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text("Build", style = AppTypography.bodyLarge)
+                        Text("2025.1", style = valueStyle, color = valueColor)
                     }
                 }
             }
@@ -104,12 +107,12 @@ fun AboutScreen(
             ) {
                 Text(
                     "Credits",
-                    style = MaterialTheme.typography.titleMedium,
+                    style = AppTypography.headingMedium,
                 )
                 Text(
                     "QuickNotes is built with Kotlin and Jetpack Compose. Icons and visuals are designed to keep your notes simple and accessible.",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = AppTypography.bodyLarge,
+                    color = AppColors.textSecondary,
                 )
             }
 
@@ -117,20 +120,21 @@ fun AboutScreen(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
-                Text("Legal", style = MaterialTheme.typography.titleMedium)
+                Text("Legal", style = AppTypography.headingMedium)
+                val (actionStyle, actionColor) = AppTypography.bodyLargeAction()
                 androidx.compose.material3.TextButton(
                     onClick = { uriHandler.openUri("https://example.com/privacy") },
-                ) { Text("Privacy Policy") }
+                ) { Text("Privacy Policy", style = actionStyle, color = actionColor) }
                 androidx.compose.material3.TextButton(
                     onClick = { uriHandler.openUri("https://example.com/terms") },
-                ) { Text("Terms of Service") }
+                ) { Text("Terms of Service", style = actionStyle, color = actionColor) }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 "Made with ❤️ using Jetpack Compose",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = AppTypography.bodySmall,
+                color = AppColors.textTertiary,
             )
         }
     }

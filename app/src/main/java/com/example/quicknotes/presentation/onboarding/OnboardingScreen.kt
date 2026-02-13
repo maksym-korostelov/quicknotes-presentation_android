@@ -28,10 +28,14 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import com.example.quicknotes.ui.theme.AppColors
+import com.example.quicknotes.ui.theme.AppTypography
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.quicknotes.ui.theme.AppColors
+import com.example.quicknotes.ui.theme.AppTypography
 import kotlinx.coroutines.launch
 
 private data class OnboardingPage(
@@ -83,7 +87,7 @@ fun OnboardingScreen(
                 onClick = onComplete,
                 modifier = Modifier.padding(8.dp),
             ) {
-                Text("Skip", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text("Skip", style = AppTypography.bodyMedium, color = AppColors.textSecondary)
             }
         }
 
@@ -103,20 +107,20 @@ fun OnboardingScreen(
                 Icon(
                     imageVector = pages[page].icon,
                     contentDescription = null,
-                    modifier = Modifier.size(72.dp),
-                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(AppTypography.iconHeroXLarge.dp),
+                    tint = AppColors.textAction,
                 )
                 Spacer(modifier = Modifier.height(24.dp))
                 Text(
                     text = pages[page].title,
-                    style = MaterialTheme.typography.headlineMedium,
+                    style = AppTypography.displayMedium,
                     textAlign = TextAlign.Center,
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = pages[page].subtitle,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = AppTypography.bodyLarge,
+                    color = AppColors.textSecondary,
                     textAlign = TextAlign.Center,
                 )
                 Spacer(modifier = Modifier.weight(1f))
@@ -136,9 +140,9 @@ fun OnboardingScreen(
                         .size(8.dp)
                         .background(
                             color = if (pagerState.currentPage == index)
-                                MaterialTheme.colorScheme.primary
+                                AppColors.textAction
                             else
-                                MaterialTheme.colorScheme.outline.copy(alpha = 0.3f),
+                                AppColors.textTertiary,
                             shape = CircleShape,
                         ),
                 )
@@ -162,6 +166,7 @@ fun OnboardingScreen(
         ) {
             Text(
                 if (pagerState.currentPage < pages.size - 1) "Next" else "Get Started",
+                style = AppTypography.headingSmall,
             )
         }
     }

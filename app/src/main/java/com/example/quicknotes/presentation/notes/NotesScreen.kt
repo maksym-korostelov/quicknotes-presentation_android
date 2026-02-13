@@ -51,6 +51,8 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.example.quicknotes.domain.entity.Category
 import com.example.quicknotes.domain.entity.Note
+import com.example.quicknotes.ui.theme.AppColors
+import com.example.quicknotes.ui.theme.AppTypography
 import java.util.UUID
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -74,8 +76,8 @@ fun NotesScreen(
                         Icon(
                             Icons.Filled.FilterList,
                             contentDescription = "Filter",
-                            tint = if (state.showArchivedAndCompleted) MaterialTheme.colorScheme.primary
-                                else MaterialTheme.colorScheme.onSurface,
+                            tint = if (state.showArchivedAndCompleted) AppColors.textAction
+                                else AppColors.textPrimary,
                         )
                     }
                     DropdownMenu(
@@ -127,7 +129,7 @@ fun NotesScreen(
                             "No notes yet. Tap + to create one."
                         else
                             "No notes to show. Tap the filter icon and choose \"Show archived & completed\" to see all.",
-                        style = MaterialTheme.typography.bodyLarge,
+                        style = AppTypography.bodyLarge,
                         modifier = Modifier
                             .align(Alignment.Center)
                             .padding(24.dp),
@@ -175,17 +177,17 @@ private fun CategoryFilterBar(
             Icons.Filled.Folder,
             contentDescription = null,
             modifier = Modifier.size(20.dp),
-            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            tint = AppColors.textSecondary,
         )
         Text(
             text = selectedName,
-            style = MaterialTheme.typography.bodyMedium,
+            style = AppTypography.bodyMedium,
             modifier = Modifier.padding(start = 8.dp),
         )
         Icon(
             Icons.Filled.ArrowDropDown,
             contentDescription = "Category",
-            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            tint = AppColors.textSecondary,
         )
     }
     DropdownMenu(
@@ -212,21 +214,23 @@ private fun CategoryFilterBar(
 }
 
 private val SideLineWidth = 4.dp
-private val ArchivedLineColor = Color(0xFF9E9E9E)
-private val CompletedLineColor = Color(0xFF4CAF50)
 
 @Composable
 private fun NoteItem(
     note: Note,
     onClick: () -> Unit,
 ) {
+    val (archivedStyle, archivedColor) = AppTypography.labelArchived()
+    val (completedStyle, completedColor) = AppTypography.labelCompleted()
+    val (_, archivedCompletedColor) = AppTypography.labelArchivedCompleted()
     val formatter = DateTimeFormatter.ofPattern("MMM d, HH:mm")
         .withZone(ZoneId.systemDefault())
     val dateStr = formatter.format(note.modifiedAt)
     val showSideLine = note.isArchived || note.isCompleted
     val sideLineColor = when {
-        note.isCompleted -> CompletedLineColor
-        note.isArchived -> ArchivedLineColor
+        note.isCompleted && note.isArchived -> archivedCompletedColor
+        note.isCompleted -> completedColor
+        note.isArchived -> archivedColor
         else -> Color.Transparent
     }
     val textDecoration = if (note.isCompleted) TextDecoration.LineThrough else TextDecoration.None
@@ -236,7 +240,7 @@ private fun NoteItem(
             .fillMaxWidth()
             .clickable(onClick = onClick),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            containerColor = AppColors.backgroundSecondary,
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
     ) {
@@ -264,7 +268,7 @@ private fun NoteItem(
                 ) {
                     Text(
                         text = note.title.ifEmpty { "(No title)" },
-                        style = MaterialTheme.typography.titleMedium.copy(textDecoration = textDecoration),
+                        style = AppTypography.headingSmall.copy(textDecoration = textDecoration),
                         modifier = Modifier.weight(1f),
                     )
                     Row(
@@ -276,13 +280,13 @@ private fun NoteItem(
                                 Icons.Filled.PushPin,
                                 contentDescription = "Pinned",
                                 modifier = Modifier.size(18.dp),
-                                tint = MaterialTheme.colorScheme.primary,
+                                tint = AppColors.textAction,
                             )
                         }
                         if (note.isArchived) {
                             Surface(
                                 shape = RoundedCornerShape(12.dp),
-                                color = ArchivedLineColor.copy(alpha = 0.2f),
+                                color = archivedColor.copy(alpha = 0.2f),
                             ) {
                                 Row(
                                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
@@ -293,12 +297,12 @@ private fun NoteItem(
                                         Icons.Filled.Delete,
                                         contentDescription = null,
                                         modifier = Modifier.size(14.dp),
-                                        tint = ArchivedLineColor,
+                                        tint = archivedColor,
                                     )
                                     Text(
                                         "Archived",
-                                        style = MaterialTheme.typography.labelSmall,
-                                        color = ArchivedLineColor,
+                                        style = archivedStyle,
+                                        color = archivedColor,
                                     )
                                 }
                             }
@@ -306,7 +310,7 @@ private fun NoteItem(
                         if (note.isCompleted) {
                             Surface(
                                 shape = RoundedCornerShape(12.dp),
-                                color = CompletedLineColor.copy(alpha = 0.25f),
+                                color = completedColor.copy(alpha = 0.25f),
                             ) {
                                 Row(
                                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
@@ -317,12 +321,12 @@ private fun NoteItem(
                                         Icons.Filled.CheckCircle,
                                         contentDescription = null,
                                         modifier = Modifier.size(14.dp),
-                                        tint = CompletedLineColor,
+                                        tint = completedColor,
                                     )
                                     Text(
                                         "Completed",
-                                        style = MaterialTheme.typography.labelSmall,
-                                        color = CompletedLineColor,
+                                        style = completedStyle,
+                                        color = completedColor,
                                     )
                                 }
                             }
@@ -332,13 +336,15 @@ private fun NoteItem(
                 if (note.content.isNotEmpty()) {
                     Text(
                         text = note.content.take(120).let { if (note.content.length > 120) "$it..." else it },
-                        style = MaterialTheme.typography.bodySmall.copy(textDecoration = textDecoration),
+                        style = AppTypography.bodyMedium.copy(textDecoration = textDecoration),
+                        color = AppColors.textSecondary,
                         modifier = Modifier.padding(top = 4.dp),
                     )
                 }
                 Text(
                     text = dateStr,
-                    style = MaterialTheme.typography.labelSmall,
+                    style = AppTypography.captionSmall,
+                    color = AppColors.textTertiary,
                     modifier = Modifier.padding(top = 4.dp),
                 )
             }

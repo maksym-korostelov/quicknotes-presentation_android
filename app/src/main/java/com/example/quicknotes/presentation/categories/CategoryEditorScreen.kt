@@ -43,6 +43,8 @@ import androidx.compose.ui.unit.dp
 import com.example.quicknotes.core.parseColorHex
 import com.example.quicknotes.presentation.categories.CategoryEditorViewModel.Companion.availableColors
 import com.example.quicknotes.presentation.categories.CategoryEditorViewModel.Companion.availableIcons
+import com.example.quicknotes.ui.theme.AppColors
+import com.example.quicknotes.ui.theme.AppTypography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -83,7 +85,7 @@ fun CategoryEditorScreen(
                         onClick = { viewModel.save(onSaved) },
                         enabled = viewModel.isValid && !state.isLoading,
                     ) {
-                        Text("Save")
+                        Text("Save", style = AppTypography.headingSmall)
                     }
                 },
             )
@@ -108,8 +110,8 @@ fun CategoryEditorScreen(
 
                 Text(
                     text = "Icon",
-                    style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = AppTypography.captionLarge,
+                    color = AppColors.textSecondary,
                 )
                 LazyVerticalGrid(
                     columns = GridCells.Adaptive(minSize = 52.dp),
@@ -139,8 +141,8 @@ fun CategoryEditorScreen(
 
                 Text(
                     text = "Color",
-                    style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = AppTypography.captionLarge,
+                    color = AppColors.textSecondary,
                 )
                 LazyVerticalGrid(
                     columns = GridCells.Adaptive(minSize = 44.dp),

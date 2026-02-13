@@ -35,6 +35,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.example.quicknotes.ui.theme.AppColors
+import com.example.quicknotes.ui.theme.AppTypography
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
@@ -75,25 +77,25 @@ fun ProfileScreen(
                     Icon(
                         Icons.Filled.Person,
                         contentDescription = null,
-                        modifier = Modifier.size(80.dp),
+                        modifier = Modifier.size(AppTypography.iconHeroXXLarge.dp),
                         tint = MaterialTheme.colorScheme.primary,
                     )
                     Spacer(modifier = Modifier.height(12.dp))
                     Text(
                         text = state.profile?.displayName ?: "User",
-                        style = MaterialTheme.typography.headlineSmall,
+                        style = AppTypography.displayMedium,
                     )
                     Text(
                         text = state.profile?.email ?: "",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        style = AppTypography.bodyMedium,
+                        color = AppColors.textSecondary,
                     )
                     state.profile?.joinedDate?.let { joined ->
                         val formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy").withZone(ZoneId.systemDefault())
                         Text(
                             text = "Member since ${formatter.format(joined)}",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = AppTypography.captionLarge,
+                            color = AppColors.textTertiary,
                         )
                     }
                 }
@@ -101,7 +103,7 @@ fun ProfileScreen(
                 // Activity section
                 Text(
                     "Activity",
-                    style = MaterialTheme.typography.titleMedium,
+                    style = AppTypography.headingMedium,
                 )
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -124,8 +126,9 @@ fun ProfileScreen(
                 // Account section
                 Text(
                     "Account",
-                    style = MaterialTheme.typography.titleMedium,
+                    style = AppTypography.headingMedium,
                 )
+                val (destructiveStyle, destructiveColor) = AppTypography.bodyLargeDestructive()
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
@@ -140,7 +143,7 @@ fun ProfileScreen(
                         ) {
                             Icon(Icons.Filled.Edit, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
                             Spacer(modifier = Modifier.size(12.dp))
-                            Text("Edit Profile", style = MaterialTheme.typography.bodyLarge)
+                            Text("Edit Profile", style = AppTypography.bodyLarge)
                         }
                         Row(
                             modifier = Modifier
@@ -150,7 +153,7 @@ fun ProfileScreen(
                         ) {
                             Icon(Icons.Filled.Logout, contentDescription = null, tint = MaterialTheme.colorScheme.error)
                             Spacer(modifier = Modifier.size(12.dp))
-                            Text("Sign Out", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.error)
+                            Text("Sign Out", style = destructiveStyle, color = destructiveColor)
                         }
                     }
                 }
@@ -186,12 +189,12 @@ fun ProfileStatCard(
             )
             Text(
                 value,
-                style = MaterialTheme.typography.titleLarge,
+                style = AppTypography.headingLarge,
             )
             Text(
                 title,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = AppTypography.bodySmall,
+                color = AppColors.textSecondary,
             )
         }
     }

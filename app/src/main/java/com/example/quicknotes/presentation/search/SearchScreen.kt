@@ -44,6 +44,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.quicknotes.ui.theme.AppColors
+import com.example.quicknotes.ui.theme.AppTypography
 import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -120,8 +122,8 @@ fun SearchScreen(
                         }
                         Text(
                             text = emptyMessage,
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = AppTypography.bodyLarge,
+                            color = AppColors.textSecondary,
                             modifier = Modifier
                                 .align(Alignment.Center)
                                 .padding(24.dp),
@@ -167,21 +169,21 @@ private fun SearchNoteItem(
         ) {
             Text(
                 text = note.title.ifEmpty { "(No title)" },
-                style = MaterialTheme.typography.titleMedium,
+                style = AppTypography.headingSmall,
             )
             if (note.content.isNotEmpty()) {
                 Text(
                     text = note.content.take(120).let { if (note.content.length > 120) "$it..." else it },
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = AppTypography.bodyMedium,
+                    color = AppColors.textSecondary,
                     modifier = Modifier.padding(top = 4.dp),
                 )
             }
             note.category?.let { cat ->
                 Text(
                     text = cat.name,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.primary,
+                    style = AppTypography.captionSmall,
+                    color = AppColors.textAction,
                     modifier = Modifier.padding(top = 4.dp),
                 )
             }

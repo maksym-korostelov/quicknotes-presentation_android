@@ -25,6 +25,8 @@ import androidx.compose.ui.unit.dp
 import com.example.quicknotes.core.AppPreferences
 import com.example.quicknotes.presentation.about.AboutScreen
 import com.example.quicknotes.presentation.help.HelpScreen
+import com.example.quicknotes.ui.theme.AppColors
+import com.example.quicknotes.ui.theme.AppTypography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -62,7 +64,7 @@ fun SettingsScreen(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Text("Dark Mode", style = MaterialTheme.typography.bodyLarge)
+                        Text("Dark Mode", style = AppTypography.bodyLarge)
                         Switch(
                             checked = darkMode,
                             onCheckedChange = {
@@ -84,7 +86,7 @@ fun SettingsScreen(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Text("Enable Notifications", style = MaterialTheme.typography.bodyLarge)
+                        Text("Enable Notifications", style = AppTypography.bodyLarge)
                         Switch(
                             checked = notifications,
                             onCheckedChange = {
@@ -107,9 +109,9 @@ fun SettingsScreen(
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
-                            Text(order, style = MaterialTheme.typography.bodyLarge)
+                            Text(order, style = AppTypography.bodyLarge)
                             if (sortOrder == order) {
-                                Text("✓", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.primary)
+                                Text("✓", style = AppTypography.bodyLarge, color = AppColors.textAction)
                             }
                         }
                     }
@@ -117,6 +119,8 @@ fun SettingsScreen(
                     HorizontalDivider()
 
                     // Data (placeholders)
+                    val (actionStyle, actionColor) = AppTypography.bodyLargeAction()
+                    val (destructiveStyle, destructiveColor) = AppTypography.bodyLargeDestructive()
                     SectionTitle("Data")
                     Row(
                         modifier = Modifier
@@ -126,7 +130,7 @@ fun SettingsScreen(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Text("Export Notes", style = MaterialTheme.typography.bodyLarge)
+                        Text("Export Notes", style = actionStyle, color = actionColor)
                     }
                     Row(
                         modifier = Modifier
@@ -136,7 +140,7 @@ fun SettingsScreen(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Text("Import Notes", style = MaterialTheme.typography.bodyLarge)
+                        Text("Import Notes", style = actionStyle, color = actionColor)
                     }
                     Row(
                         modifier = Modifier
@@ -146,7 +150,7 @@ fun SettingsScreen(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Text("Delete All Notes", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.error)
+                        Text("Delete All Notes", style = destructiveStyle, color = destructiveColor)
                     }
                     HorizontalDivider()
 
@@ -158,7 +162,7 @@ fun SettingsScreen(
                             .clickable { showAbout = true }
                             .padding(vertical = 12.dp),
                     ) {
-                        Text("About QuickNotes", style = MaterialTheme.typography.bodyLarge)
+                        Text("About QuickNotes", style = AppTypography.bodyLarge)
                     }
                     Row(
                         modifier = Modifier
@@ -166,7 +170,17 @@ fun SettingsScreen(
                             .clickable { showHelp = true }
                             .padding(vertical = 12.dp),
                     ) {
-                        Text("Help", style = MaterialTheme.typography.bodyLarge)
+                        Text("Help", style = AppTypography.bodyLarge)
+                    }
+                    val (valueStyle, valueColor) = AppTypography.bodyMediumValue()
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 12.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                    ) {
+                        Text("Version", style = AppTypography.bodyLarge)
+                        Text("1.0.0", style = valueStyle, color = valueColor)
                     }
                     Row(
                         modifier = Modifier
@@ -174,17 +188,8 @@ fun SettingsScreen(
                             .padding(vertical = 12.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
-                        Text("Version", style = MaterialTheme.typography.bodyLarge)
-                        Text("1.0.0", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    }
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 12.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                    ) {
-                        Text("Build", style = MaterialTheme.typography.bodyLarge)
-                        Text("2025.1", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text("Build", style = AppTypography.bodyLarge)
+                        Text("2025.1", style = valueStyle, color = valueColor)
                     }
                 }
             }
@@ -196,18 +201,19 @@ fun SettingsScreen(
 private fun SectionTitle(title: String) {
     Text(
         title,
-        style = MaterialTheme.typography.titleSmall,
-        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        style = AppTypography.captionLarge,
+        color = AppColors.textSecondary,
         modifier = Modifier.padding(top = 16.dp, bottom = 4.dp),
     )
 }
 
 @Composable
 private fun SectionFooter(text: String) {
+    val (style, color) = AppTypography.bodySmallHint()
     Text(
         text,
-        style = MaterialTheme.typography.bodySmall,
-        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        style = style,
+        color = color,
         modifier = Modifier.padding(bottom = 8.dp),
     )
 }
